@@ -58,7 +58,7 @@ const services = [
 
 services.forEach(service => { Services.register(service.name, service.instance) })
 
-app.register(RequestEntryRoute, { Services })
+app.register(RequestEntryRoute, { services: Services })
 
 app.get('/', async (request, reply) => {
   return { hello: 'world' }

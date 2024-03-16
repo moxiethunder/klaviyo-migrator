@@ -67,7 +67,7 @@ const getSecondsPassed = (date) => {
 }
 
 const convertToDate = (time) => {
-  return time.toISODate()
+  return DateTime.fromSeconds(time).toISODate()
 }
 
 export { configureAxiosRetry, validateParams, getDuration, convertToDate }

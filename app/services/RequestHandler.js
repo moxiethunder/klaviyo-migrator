@@ -10,7 +10,6 @@ class RequestHandler {
   async request(config) {
     try {
       const response = await this.httpClient(config)
-      console.log('Response: ', response.data)
       return response.data
     } catch (error) {
       if ( error instanceof AxiosError ) {

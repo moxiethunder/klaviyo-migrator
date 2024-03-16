@@ -37,15 +37,15 @@ class DataFetcher {
       : { url, method: 'get' }
 
       const response = await this.handler.request(config)
-
-      if ( response.data.length === 0 ) return createServerReply({
+      
+      if ( response.data.length === 0 ) return {
         message: 'No data in search range',
         statusCode: 204,
         searchDate: convertToDate(this.lookback),
         fetched: this.successfulRequests,
         written: this.successfulWrites,
         accountName: this.accountName,
-      })
+      }
 
       if ( isInitial ) {
         console.log('initial')

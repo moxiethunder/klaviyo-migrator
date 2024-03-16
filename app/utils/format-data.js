@@ -1,8 +1,16 @@
 const createServerReply = (data) => {
+  const { message, statusCode, searchDate, fetched, written, accountName, duration } = data
+
   return {
-    message: 'Request completed',
-    data: data,
-    duration: 1000
+    accountName,
+    message,
+    statusCode,
+    duration,
+    details: {
+      searchDate,
+      fetched,
+      written
+    }
   }
 }
 
