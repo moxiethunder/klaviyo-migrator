@@ -1,0 +1,54 @@
+{
+  "name": "klaviyo-migrator",
+  "version": "1.0.0",
+  "description": "A tool for migrating data between Klaviyo accounts",
+  "main": "app.js",
+  "type": "module",
+  "imports": {
+    "#/*": "./",
+    "#controllers/*": "./app/controllers/*.js",
+    "#routes/*": "./app/routes/*.js",
+    "#services/*": "./app/services/*.js",
+    "#utils/*": "./app/utils/*.js"
+  },
+  "scripts": {
+    "start": "nodemon app.js | pino-pretty",
+    "reset": "rm -f database/database.db && rm -rf prisma/migrations/* && npx prisma migrate dev --name init && npx prisma generate && npx prisma studio",
+    "studio": "npx prisma studio",
+    "lint": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moxiethunder/klaviyo-migrator.git"
+  },
+  "keywords": [
+    "klaviy",
+    "nodejs",
+    "fastify",
+    "axios"
+  ],
+  "author": "Daniel LittleThunder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moxiethunder/klaviyo-migrator/issues"
+  },
+  "homepage": "https://github.com/moxiethunder/klaviyo-migrator#readme",
+  "dependencies": {
+    "@prisma/client": "^5.11.0",
+    "axios": "^1.6.8",
+    "axios-retry": "^4.0.0",
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.2",
+    "luxon": "^3.4.4",
+    "nodemailer": "^6.9.12",
+    "winston": "^3.12.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "prisma": "^5.11.0"
+  }
+}

@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Dump {
+  id       Int    @id @default(autoincrement())
+  uniqueId String @unique
+  metric   String
+  name     String
+  data     String
+}
+
+model Metric {
+  id     String  @id @unique
+  name   String
+  events Event[]
+}
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  metric    Metric   @relation(fields: [metricId], references: [id])
+  imported  Boolean  @default(false)
+  metricId  String
+  eventId   String
+  eventName String
+  profileId String
+  userEmail String
+  getEvent  String
+  postEvent String
+
+  @@unique([metricId, userEmail])
+  @@index([userEmail, metricId])
+}

@@ -1,0 +1,311 @@
+{
+  "data": [
+    {
+      "type": "event",
+      "id": "4JYXqBZuGeA",
+      "attributes": {
+        "event_properties": {
+          "topic": "loyalty/custom/reward/created",
+          "name": " Loyalty Custom Reward Created",
+          "store_name": "Dummy Store Name",
+          "at_checkout": false,
+          "is_pos": false,
+          "redemption": {
+            "id": 2,
+            "created_at": "2016-10-15T16:00:17.786Z",
+            "updated_at": "2016-10-15T16:00:17.786Z",
+            "reward_text": "redeemed",
+            "approved": true,
+            "approved_at": "2016-10-15T16:00:17.915Z",
+            "is_admin": false,
+            "is_pos": false,
+            "at_checkout": false
+          },
+          "redemption_option": {
+            "id": 152,
+            "name": "10% Off",
+            "description": "Get 10% off your next purchase for 0 points",
+            "icon": "fa-percent",
+            "cost_text": "0 Points",
+            "amount": 0
+          },
+          "email": "dummy@swellrewards.com",
+          "customer": {
+            "total_spend_cents": 0,
+            "is_affiliate": "true",
+            "affiliate_email": "test@gmail.com",
+            "payout_percentage": "12.5",
+            "has_provided_tax_details": "true",
+            "total_amount_earned": "305.21",
+            "total_purchases": 0,
+            "perks_redeemed": 2,
+            "last_purchase_at": null,
+            "vip_tier_name": "SILVER",
+            "vip_tier_ends_at": "2017-10-31",
+            "email": "dummy@swellrewards.com",
+            "points_earned": 5200,
+            "points_balance": 4700,
+            "points_expire_at": null,
+            "first_name": "John",
+            "last_name": "Smith",
+            "last_seen_at": "2016-10-15T16:00:17.000Z",
+            "thirty_party_id": "4302977345",
+            "referral_code": {
+              "code": "117yu4g",
+              "shares": 0,
+              "facebook_shares": 0,
+              "twitter_shares": 0,
+              "email_shares": 0,
+              "emails_sent": 0,
+              "emails_viewed": 0,
+              "links_clicked_from_email": 0,
+              "links_clicked_from_twitter": 0,
+              "links_clicked_from_facebook": 0,
+              "orders": 0,
+              "amount_cents": 0,
+              "average_amount_cents": 0,
+              "expires_at": null,
+              "expired": false,
+              "completed_referral_customers": [],
+              "email": "dummy@swellrewards.com",
+              "unique_clicks": 0,
+              "total_clicks": 0
+            }
+          },
+          "perk": {
+            "id": 3,
+            "campaign_id": 4,
+            "merchant_id": 1,
+            "customer_id": 139,
+            "reward_points": 0,
+            "completed": false,
+            "completed_at": null,
+            "awarded": false,
+            "awarded_at": null,
+            "pending": false,
+            "reversed": false,
+            "reversed_at": null,
+            "expired": false,
+            "expired_at": null,
+            "expires_at": null,
+            "redemption_option_id": 152,
+            "history_title": "Join our newsletter",
+            "created_at": "2016-10-15T16:00:17.000Z",
+            "redemption_option": {
+              "id": 152,
+              "name": "10% Off",
+              "description": "Get 10% off your next purchase for 0 points",
+              "icon": "fa-percent",
+              "cost_text": "0 Points",
+              "amount": 0
+            }
+          },
+          "$event_id": "1699889296"
+        },
+        "timestamp": 1699889296
+      },
+      "relationships": {
+        "profile": {
+          "data": {
+            "type": "profile",
+            "id": "01GZHKS1W1FKVBN9QXY1PSVDDB"
+          },
+          "links": {
+            "self": "https://a.klaviyo.com/api/events/4JYXqBZuGeA/relationships/profile/",
+            "related": "https://a.klaviyo.com/api/events/4JYXqBZuGeA/profile/"
+          }
+        },
+        "metric": {
+          "data": {
+            "type": "metric",
+            "id": "Vmjcv4"
+          },
+          "links": {
+            "self": "https://a.klaviyo.com/api/events/4JYXqBZuGeA/relationships/metric/",
+            "related": "https://a.klaviyo.com/api/events/4JYXqBZuGeA/metric/"
+          }
+        }
+      },
+      "links": {
+        "self": "https://a.klaviyo.com/api/events/4JYXqBZuGeA/"
+      }
+    },
+    {
+      "type": "event",
+      "id": "4eEE43HviDF",
+      "attributes": {
+        "event_properties": {
+          "topic": "loyalty/custom/reward/created",
+          "name": " Loyalty Custom Reward Created",
+          "store_name": "Dummy Store Name",
+          "at_checkout": false,
+          "is_pos": false,
+          "redemption": {
+            "id": 2,
+            "created_at": "2016-10-15T16:00:17.786Z",
+            "updated_at": "2016-10-15T16:00:17.786Z",
+            "reward_text": "redeemed",
+            "approved": true,
+            "approved_at": "2016-10-15T16:00:17.915Z",
+            "is_admin": false,
+            "is_pos": false,
+            "at_checkout": false
+          },
+          "redemption_option": {
+            "id": 152,
+            "name": "10% Off",
+            "description": "Get 10% off your next purchase for 0 points",
+            "icon": "fa-percent",
+            "cost_text": "0 Points",
+            "amount": 0
+          },
+          "email": "dummy@swellrewards.com",
+          "customer": {
+            "total_spend_cents": 0,
+            "is_affiliate": "true",
+            "affiliate_email": "test@gmail.com",
+            "payout_percentage": "12.5",
+            "has_provided_tax_details": "true",
+            "total_amount_earned": "305.21",
+            "total_purchases": 0,
+            "perks_redeemed": 2,
+            "last_purchase_at": null,
+            "vip_tier_name": "SILVER",
+            "vip_tier_ends_at": "2017-10-31",
+            "email": "dummy@swellrewards.com",
+            "points_earned": 5200,
+            "points_balance": 4700,
+            "points_expire_at": null,
+            "first_name": "John",
+            "last_name": "Smith",
+            "last_seen_at": "2016-10-15T16:00:17.000Z",
+            "thirty_party_id": "4302977345",
+            "referral_code": {
+              "code": "117yu4g",
+              "shares": 0,
+              "facebook_shares": 0,
+              "twitter_shares": 0,
+              "email_shares": 0,
+              "emails_sent": 0,
+              "emails_viewed": 0,
+              "links_clicked_from_email": 0,
+              "links_clicked_from_twitter": 0,
+              "links_clicked_from_facebook": 0,
+              "orders": 0,
+              "amount_cents": 0,
+              "average_amount_cents": 0,
+              "expires_at": null,
+              "expired": false,
+              "completed_referral_customers": [],
+              "email": "dummy@swellrewards.com",
+              "unique_clicks": 0,
+              "total_clicks": 0
+            }
+          },
+          "perk": {
+            "id": 3,
+            "campaign_id": 4,
+            "merchant_id": 1,
+            "customer_id": 139,
+            "reward_points": 0,
+            "completed": false,
+            "completed_at": null,
+            "awarded": false,
+            "awarded_at": null,
+            "pending": false,
+            "reversed": false,
+            "reversed_at": null,
+            "expired": false,
+            "expired_at": null,
+            "expires_at": null,
+            "redemption_option_id": 152,
+            "history_title": "Join our newsletter",
+            "created_at": "2016-10-15T16:00:17.000Z",
+            "redemption_option": {
+              "id": 152,
+              "name": "10% Off",
+              "description": "Get 10% off your next purchase for 0 points",
+              "icon": "fa-percent",
+              "cost_text": "0 Points",
+              "amount": 0
+            }
+          },
+          "$event_id": "1683144609"
+        },
+        "timestamp": 1683144609
+      },
+      "relationships": {
+        "profile": {
+          "data": {
+            "type": "profile",
+            "id": "01GZHKS1W1FKVBN9QXY1PSVDDB"
+          },
+          "links": {
+            "self": "https://a.klaviyo.com/api/events/4eEE43HviDF/relationships/profile/",
+            "related": "https://a.klaviyo.com/api/events/4eEE43HviDF/profile/"
+          }
+        },
+        "metric": {
+          "data": {
+            "type": "metric",
+            "id": "Vmjcv4"
+          },
+          "links": {
+            "self": "https://a.klaviyo.com/api/events/4eEE43HviDF/relationships/metric/",
+            "related": "https://a.klaviyo.com/api/events/4eEE43HviDF/metric/"
+          }
+        }
+      },
+      "links": {
+        "self": "https://a.klaviyo.com/api/events/4eEE43HviDF/"
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "metric",
+      "id": "Vmjcv4",
+      "attributes": {
+        "name": " Loyalty Custom Reward Created"
+      },
+      "links": {
+        "self": "https://a.klaviyo.com/api/metrics/Vmjcv4/"
+      }
+    },
+    {
+      "type": "profile",
+      "id": "01GZHKS1W1FKVBN9QXY1PSVDDB",
+      "attributes": {
+        "email": "dummy@swellrewards.com"
+      },
+      "relationships": {
+        "lists": {
+          "links": {
+            "self": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/relationships/lists/",
+            "related": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/lists/"
+          }
+        },
+        "segments": {
+          "links": {
+            "self": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/relationships/segments/",
+            "related": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/segments/"
+          }
+        },
+        "conversation": {
+          "links": {
+            "self": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/relationships/conversation/",
+            "related": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/conversation/"
+          }
+        }
+      },
+      "links": {
+        "self": "https://a.klaviyo.com/api/profiles/01GZHKS1W1FKVBN9QXY1PSVDDB/"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://a.klaviyo.com/api/events/?fields%5Bevent%5D=event_properties%2Ctimestamp&fields%5Bmetric%5D=name&fields%5Bprofile%5D=email&include=metric%2Cprofile&filter=equals%28metric_id%2C%27Vmjcv4%27%29%2Cgreater-or-equal%28timestamp%2C1682920800%29",
+    "next": null,
+    "prev": null
+  }
+}
