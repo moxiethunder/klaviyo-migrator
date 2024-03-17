@@ -60,10 +60,6 @@ services.forEach(service => { Services.register(service.name, service.instance) 
 
 app.register(RequestEntryRoute, { services: Services })
 
-app.get('/', async (request, reply) => {
-  return { hello: 'world' }
-})
-
 const startServer = () => {
   try {
     app.listen({ port: PORT, host: HOST }, (error, address) => {

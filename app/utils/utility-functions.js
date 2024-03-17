@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import axiosRetry from 'axios-retry'
+import isEmail from 'validator/lib/isEmail.js'
 
 const configureAxiosRetry = (httpClient, config, callback) => {
   axiosRetry(httpClient, {
@@ -70,4 +71,10 @@ const convertToDate = (time) => {
   return DateTime.fromSeconds(time).toISODate()
 }
 
-export { configureAxiosRetry, validateParams, getDuration, convertToDate }
+const validateEmail = (userEmail) => {
+  return userEmail !== undefined && userEmail !== null
+    ? isEmail(userEmail)
+    : false
+}
+
+export { configureAxiosRetry, validateParams, getDuration, convertToDate, validateEmail }

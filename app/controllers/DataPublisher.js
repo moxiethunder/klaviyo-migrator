@@ -5,20 +5,26 @@ import { createServerReply } from '#utils/format-data'
 
 class DataPublisher {
   constructor(httpClient, serviceContainer) {
-    this.httpClient = httpClient
-    this.handler = new RequestHandler(this.httpClient)
-    this.logger = serviceContainer.get('logger')
-    this.mailer = serviceContainer.get('mailer')
+    
+    //Request details
     this.details = serviceContainer.get('requestdetails')
     this.accountName = this.details.publishClient
     this.metricId = this.details.metricId
-    this.lookback = this.details.lookback
+    this.eventName = this.details.eventName
+    
+    //HTTP client and data
+    this.httpClient = httpClient
+    this.handler = new RequestHandler(this.httpClient)
+
+    //Services
+    this.logger = serviceContainer.get('logger')
+    this.mailer = serviceContainer.get('mailer')
+
+    //Database processor
+    this.processor = serviceContainer.get('processor')
   }
 
-  fetchData() {
-    // this.account is an Axios instance
-    // I need to send this to /fetch-events route
-    // the /fetch-events route will this.account.get(external api url, query params)
+  intitPublish() {
   }
 }
 

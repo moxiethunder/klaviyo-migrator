@@ -1,4 +1,4 @@
-import { RequestError } from '#utils/custom-errors'
+import { RequestError, isAxiosError, handleAxiosError } from '#utils/custom-errors'
 import { AxiosError } from 'axios'
 import { formatAxiosError } from '#utils/format-data'
 
@@ -7,9 +7,21 @@ class RequestHandler {
     this.httpClient = httpClient
   }
 
-  async request(config) {
+  async metricNameRequest(config) {
     try {
-      const response = await this.httpClient(config)
+      const response = await this.httpClient.request(config.request)
+      return response.data
+    } catch (error) {
+      if ( isAxiosError(error) ) {
+        const newError = handleAxiosError(error, 'RequestHandler.metricRequest()', config.metricId)
+        throw newError
+      }
+    }
+  }
+
+  async getEventsRequest(config) {
+    try {
+      const response = await this.httpClient.request(config)
       return response.data
     } catch (error) {
       if ( error instanceof AxiosError ) {
@@ -30,6 +42,8 @@ class RequestHandler {
       }
     }
   }
+
+
 }
 
 export default RequestHandler

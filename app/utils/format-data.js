@@ -1,16 +1,43 @@
+import { convertToDate } from '#utils/utility-functions'
+
 const createServerReply = (data) => {
-  const { message, statusCode, searchDate, fetched, written, accountName, duration } = data
+  const { metricId, message, statusCode, searchDate, fetched, written, accountName, duration, errorCode, detail, origin, url, eventName } = data
 
   return {
     accountName,
+    metricId,
+    eventName: eventName || 'No event name available',
     message,
     statusCode,
     duration,
     details: {
+      detail,
+      url,
+      errorCode,
       searchDate,
-      fetched,
-      written
+      origin,
+      fetched: fetched || 0,
+      written: written || 0,
     }
+  }
+}
+
+const createFetchEventReply = (data) => {
+  const searchDate = convertToDate(data.lookback)
+  
+  return {
+    message: data.message || 'No data in search range',
+    statusCode: data.statusCode || 204,
+    searchDate,
+    fetched: data.fetched || 0,
+    written: data.written || 0,
+    accountName: data.accountName,
+    errorCode: data.errorCode || 'NO_DATA_IN_RANGE',
+    detail: data.detail || `No data found for metric ID ${data.metricId} since ${searchDate}`,
+    origin: data.origin || 'DataFetcher.initFetch()',
+    url: data.url,
+    metricId: data.metricId,
+    eventName: data.eventName
   }
 }
 
@@ -26,7 +53,8 @@ const formatPrismaError = (error) => {
 
 }
 
-const formatAxiosError = (error) => {
+const formatAxiosError = (error, source) => {
+
   const { data: { errors: [firstError] = [] } = {} } = error?.response || {}
   const { method, accountName } = error?.config || {}
   const [sourceKey, sourceValue] = Object.entries(firstError?.source || {})[0] || []
@@ -43,7 +71,7 @@ const formatAxiosError = (error) => {
     requestMethod: method,
     accountName,
     detail: formattedDetail,
-    origin: 'RequestHandler.request()',
+    origin: source,
     url: error.request?._redirectable?._currentUrl,
     stack: formattedStack,
     cause: error,
@@ -55,5 +83,6 @@ export {
   createLogMessage,
   formatMailerMessage,
   formatPrismaError,
-  formatAxiosError
+  formatAxiosError,
+  createFetchEventReply,
 }

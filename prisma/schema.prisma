@@ -7,33 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Dump {
-  id       Int    @id @default(autoincrement())
-  uniqueId String @unique
-  metric   String
-  name     String
-  data     String
+model Metric {
+  metricId  String    @id @unique
+  eventName String
+  events    Event[]
+  dumps     Dump[]
+  invalids  Invalid[]
 }
 
-model Metric {
-  id     String  @id @unique
-  name   String
-  events Event[]
+model Dump {
+  id          Int    @id @default(autoincrement())
+  uniqueId    String @unique
+  metricId    String
+  eventName   String
+  requestData String
+  metric      Metric @relation(fields: [metricId], references: [metricId])
 }
 
 model Event {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  metric    Metric   @relation(fields: [metricId], references: [id])
-  imported  Boolean  @default(false)
-  metricId  String
-  eventId   String
-  eventName String
-  profileId String
-  userEmail String
-  getEvent  String
-  postEvent String
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  imported     Boolean  @default(false)
+  metricId     String
+  eventId      String   @unique
+  eventName    String
+  profileId    String
+  userEmail    String
+  fetchedEvent String
+  newEvent     String
+  metric       Metric   @relation(fields: [metricId], references: [metricId])
+}
 
-  @@unique([metricId, userEmail])
-  @@index([userEmail, metricId])
+model Invalid {
+  id           Int    @id @default(autoincrement())
+  metricId     String
+  eventId      String @unique
+  eventName    String
+  profileId    String
+  userEmail    String
+  fetchedEvent String
+  newEvent     String
+  metric       Metric @relation(fields: [metricId], references: [metricId])
 }
