@@ -44,6 +44,19 @@ class DatabaseController {
     return isUnique
   }
 
+  async getDumpDetails(metricId) {
+    return await this.prisma.metric.findUnique({
+      where: {
+        metricId
+      },
+      select: {
+        eventName: true,
+        fetchClient: true,
+        publishClient: true,
+      }
+    })
+  }
+
   async getDataByMetricRelationship(metricId, relationship) {
     return await this.prisma.metric.findUnique({
       where: {

@@ -1,7 +1,8 @@
 import Fastify from 'fastify'
 import 'dotenv/config'
 
-import RequestEntryRoute from '#routes/RequestEntryRoute'
+import RequestProcessingRoute from '#routes/RequestProcessingRoute'
+import ContinueProcessingRoute from '#routes/ContinueProcessingRoute'
 
 import ServiceContainer from '#services/ServiceContainer'
 import DatabaseController from '#services/DatabaseController'
@@ -58,7 +59,8 @@ const services = [
 
 services.forEach(service => { Services.register(service.name, service.instance) })
 
-app.register(RequestEntryRoute, { services: Services })
+app.register(RequestProcessingRoute, { services: Services })
+app.register(ContinueProcessingRoute, { services: Services })
 
 const startServer = () => {
   try {

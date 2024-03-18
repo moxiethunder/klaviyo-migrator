@@ -8,11 +8,13 @@ datasource db {
 }
 
 model Metric {
-  metricId  String    @id @unique
-  eventName String
-  events    Event[]
-  dumps     Dump[]
-  invalids  Invalid[]
+  metricId      String    @id @unique
+  eventName     String
+  fetchClient   String    @default("maunaloa")
+  publishClient String    @default("hawaiianhost")
+  events        Event[]
+  dumps         Dump[]
+  invalids      Invalid[]
 }
 
 model Dump {

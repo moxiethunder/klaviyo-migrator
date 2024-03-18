@@ -6,6 +6,23 @@ class DataProcessor {
     this.database = database
     this.eventName = null
     this.metricId = null
+    this.dumpRows = null
+    this.currentIndex = 0
+    this.batchSize = 100
+  }
+
+  async getDumpDetails(metricId, clientType) {
+    const response = await this.database.getDumpDetails(metricId, clientType)
+
+    const { eventName, fetchClient, publishClient } = response
+    this.setEventName(eventName)
+    this.setMetricId(metricId)
+
+    return {
+      eventName,
+      fetchClient,
+      publishClient
+    }
   }
 
   async updateStatus(eventId) {
@@ -25,11 +42,24 @@ class DataProcessor {
     }
   }
 
-  async writeFetchedEvents() {
-    const metricSearch = await this.database.getDataByMetricRelationship(this.metricId, 'dumps')
-    const dumpRows = metricSearch.dumps
+  async writeFetchedEvent() {
+    if ( !this.dumpRows || this.dumpRows.length === 0 ) {
+      const metricSearch = await this.database.getDataByMetricRelationship(this.metricId, 'dumps')
+      this.dumpRows = metricSearch.dumps
+    }
 
-    const eventObjects = dumpRows.flatMap(dump => {
+    await this.processDumpBatch()
+  }
+
+  async processDumpBatch() {
+    const dumpRowsSubset = this.dumpRows.slice(this.currentIndex, this.currentIndex + this.batchSize)
+
+    if ( dumpRowsSubset.length === 0 ) {
+      console.log('No more dump rows to batch process')
+      return
+    }
+
+    const eventObjects = dumpRowsSubset.flatMap(dump => {
       const data = JSON.parse(dump.requestData)
       const events = data.data
       const profiles = data.included
@@ -42,8 +72,6 @@ class DataProcessor {
         const timestamp = event.attributes.datetime
         const eventProperties = event.attributes.event_properties
         const userEmail = profiles.find(profile => profile.id === profileId)?.attributes?.email || 'unknown'
-
-        console.log(userEmail)
 
         const config = {
           properties: eventProperties,
@@ -72,11 +100,22 @@ class DataProcessor {
 
       await this.database.createEvent(event, 'event')
     }
+
+    this.currentIndex += this.batchSize
+    await this.processDumpBatch()
+  }
+
+  setMetricId(metricId) {
+    this.metricId = metricId
+  }
+
+  setEventName(eventName) {
+    this.eventName = eventName
   }
 
   async setMetricRelationship(metricId, eventName) {
-    this.metricId = metricId
-    this.eventName = eventName
+    this.setMetricId(metricId)
+    this.setEventName(eventName)
 
     await this.database.setMetric(metricId, eventName)
     return true

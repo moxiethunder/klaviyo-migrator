@@ -4,11 +4,11 @@ import { DatabaseError, RequestError } from '#utils/custom-errors'
 import DataFetcher from '#controllers/DataFetcher'
 import DataPublisher from '#controllers/DataPublisher'
 
-const RequestEntryRoute = async (fastify, options) => {
+const RequestProcessingRoute = async (fastify, options) => {
   const { services } = options
   const { logger, mailer } = services
   
-  fastify.post('/request-entry', async (request, reply) => {
+  fastify.post('/request', async (request, reply) => {
     // General use data
     const startTime = Date.now()
     let statusCode = 200
@@ -60,4 +60,4 @@ const RequestEntryRoute = async (fastify, options) => {
   })
 }
 
-export default RequestEntryRoute
+export default RequestProcessingRoute
