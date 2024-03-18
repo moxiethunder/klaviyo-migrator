@@ -1,6 +1,6 @@
 import RequestHandler from '#services/RequestHandler'
 import { DatabaseError, RequestError } from '#utils/custom-errors'
-import { convertToDate, configureAxiosRetry } from '#utils/utility-functions'
+import { convertToDate, configureAxiosRetry, getDuration } from '#utils/utility-functions'
 import { createServerReply } from '#utils/format-data'
 
 class DataPublisher {
@@ -44,6 +44,7 @@ class DataPublisher {
     }
 
     for ( const event of newEvents ) {
+      const startTime = Date.now()
       const { eventId, imported, newEvent } = event
       if ( imported ) continue
 
@@ -53,6 +54,15 @@ class DataPublisher {
       await this.processor.updateStatus(eventId)
 
       this.successfulWrites++
+      const duration = getDuration(startTime)
+      console.log({
+        duration,
+        message: `Published event ${eventId} to Klaviyo account ${this.accountName}`,
+        metricId: this.metricId,
+        eventName: this.eventName,
+        count: this.successfulWrites,
+        origin: 'DataPublisher.initPublish()'
+      })
     }
 
     return {

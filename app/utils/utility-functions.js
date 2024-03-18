@@ -62,8 +62,12 @@ const getDuration = (startTime) => {
 }
 
 const getSecondsPassed = (date) => {
+  const since = DateTime.fromISO(date) === date
+    ? date
+    : DateTime.fromISO(date)
+    
   const now = DateTime.now()
-  const daysPassed = now.diff(date, 'days').days
+  const daysPassed = now.diff(since, 'days').days
   return now.minus({ days: daysPassed }).toSeconds()
 }
 

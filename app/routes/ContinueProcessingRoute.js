@@ -1,4 +1,4 @@
-import { getDuration } from '#utils/utility-functions'
+import { getDuration, getSecondsPassed } from '#utils/utility-functions'
 import DataPublisher from '#controllers/DataPublisher'
 
 const ContinueProcessingRoute = async (fastify, options) => {
@@ -23,10 +23,12 @@ const ContinueProcessingRoute = async (fastify, options) => {
       fetchClient: fetchClientName,
       publishClient: httpClient.defaults.accountName,
       metricId: request.query.metric_id,
+      lookback: getSecondsPassed('2024-05-01')
     })
 
     const writeFetchedEvents = await processor.writeFetchedEvents()
     const publisher = new DataPublisher(httpClient, services)
+    const publisherResponse = await publisher.initPublish()
   })
 }
 
