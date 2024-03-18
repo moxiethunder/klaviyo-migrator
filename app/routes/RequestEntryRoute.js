@@ -42,16 +42,18 @@ const RequestEntryRoute = async (fastify, options) => {
       }
     } catch (error) {
       const errorType = error.constructor.name
-      console.log('Error from RequestEntryRoute', errorType)
+      console.log('REQUESTENTRYROUTE: ERROR - DataFetcher', error)
     }
 
     // Fetch new events from database and publish to Klaviyo account
     try {
       const publisher = new DataPublisher(publishAxios, services)
       const publisherResponse = await publisher.initPublish()
+      statusCode = publisherResponse.statusCode
+      replyInfo = createServerReply({ ...publisherResponse, duration: getDuration(startTime) })
     } catch (error) {
       const errorType = error.constructor.name
-      console.log('Error from RequestEntryRoute', errorType)
+      console.log('REQUESTENTRYROUTE: ERROR - DataPublisher', error)
     }
 
     reply.code(statusCode).send(replyInfo)

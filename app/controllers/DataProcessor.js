@@ -8,6 +8,10 @@ class DataProcessor {
     this.metricId = null
   }
 
+  async updateStatus(eventId) {
+    await this.database.updateImportStatus(eventId)
+  }
+
   async dataDump(data) {
     const uniqueId = data.data[0].id
     const hasNext = data.links.next !== null
@@ -22,8 +26,7 @@ class DataProcessor {
   }
 
   async writeFetchedEvents() {
-    let writtenEvents = 0
-    const metricSearch = await this.database.getDumpData(this.metricId)
+    const metricSearch = await this.database.getDataByMetricRelationship(this.metricId, 'dumps')
     const dumpRows = metricSearch.dumps
 
     const eventObjects = dumpRows.flatMap(dump => {
@@ -36,15 +39,15 @@ class DataProcessor {
       return events.map(event => {
         const eventId = event.id
         const profileId = event.relationships.profile.data.id
-        const timestamp = event.attributes.timestamp
+        const timestamp = event.attributes.datetime
         const eventProperties = event.attributes.event_properties
         const userEmail = profiles.find(profile => profile.id === profileId).attributes.email
 
         const config = {
-          eventProperties,
-          timestamp,
-          eventName,
-          userEmail,
+          properties: eventProperties,
+          time: timestamp,
+          name: eventName,
+          email: userEmail,
         }
 
         return {
@@ -67,13 +70,6 @@ class DataProcessor {
 
       await this.database.createEvent(event, 'event')
     }
-
-    return {
-      statusCode: 200,
-      written: writtenEvents,
-      eventName: this.eventName,
-      metricId: this.metricId,
-    }
   }
 
   async setMetricRelationship(metricId, eventName) {
@@ -84,32 +80,33 @@ class DataProcessor {
     return true
   }
 
-  // async createInvalidAccount(event) {
-  //   const config = {
-  //     metricId: event.metricId,
-  //     eventId: event.eventId,
-  //     eventName: event.eventName,
-  //     profileId: event.profileId,
-  //     userEmail: event.userEmail || 'No email provided',
-  //     fetchedEvent: event.fetchedEvent,
-  //   }
-
-  //   await this.database.insertInvalid(config)
-  // }
+  async getNewEvents() {
+    const metricSearch = await this.database.getDataByMetricRelationship(this.metricId, 'events')
+    
+    return metricSearch.events.map(event => {
+      return {
+        eventId: event.eventId,
+        imported: event.imported,
+        newEvent: event.newEvent,
+      }
+    }).filter(Boolean)
+  }
 
   createEventObject(config) {
-    const { eventProperties, timestamp, eventName, userEmail } = config
+    const { properties, time, name, email } = config
+
+    console.log('CREATE EVENT OBJECT', time)
     return {
       data: {
         type: 'event',
         attributes: {
-          eventProperties,
-          timestamp,
+          properties,
+          time,
           metric: {
             data: {
               type: 'metric',
               attributes: {
-                eventName,
+                name,
               },
             },
           },
@@ -117,7 +114,7 @@ class DataProcessor {
             data: {
               type: 'profile',
               attributes: {
-                userEmail,
+                email,
               },
             },
           },

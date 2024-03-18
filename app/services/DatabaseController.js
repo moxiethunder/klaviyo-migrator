@@ -5,8 +5,15 @@ class DatabaseController {
     this.prisma = new PrismaClient({ errorFormat: 'pretty' })
   }
 
-  async countRows(table) {
-    return await this.prisma[table].count()
+  async updateImportStatus(eventId) {
+    await this.prisma.event.update({
+      where: {
+        eventId
+      },
+      data: {
+        imported: true
+      }
+    })
   }
 
   async setMetric(metricId, eventName) {
@@ -21,10 +28,12 @@ class DatabaseController {
   }
 
   async insertDump(uniqueId, metricId, eventName, requestData) {
-    // const isUnique = await this.checkUniqueness('dump', 'uniqueId', uniqueId)
+    const isUnique = await this.checkUniqueness('dump', 'uniqueId', uniqueId)
 
-    await this.prisma.dump.create({
-      data: {
+    await this.prisma.dump.upsert({
+      where: { uniqueId },
+      update: {},
+      create: {
         uniqueId,
         metricId,
         eventName,
@@ -32,34 +41,25 @@ class DatabaseController {
       }
     })
 
-    // await this.prisma.dump.upsert({
-    //   where: { uniqueId },
-    //   update: {},
-    //   create: {
-    //     uniqueId,
-    //     metricId,
-    //     eventName,
-    //     requestData: JSON.stringify(requestData)
-    //   }
-    // })
-
-    // return isUnique
+    return isUnique
   }
 
-  async getDumpData(metricId) {
+  async getDataByMetricRelationship(metricId, relationship) {
     return await this.prisma.metric.findUnique({
       where: {
         metricId
       },
       include: {
-        dumps: true
+        [relationship]: true
       }
     })
   }
 
   async createEvent(config, table) {
-    await this.prisma[table].create({
-      data: {
+    await this.prisma[table].upsert({
+      where: { eventId: config.eventId },
+      update: {},
+      create: {
         metricId: config.metricId,
         eventId: config.eventId,
         eventName: config.eventName,
@@ -71,40 +71,6 @@ class DatabaseController {
     })
   }
 
-  async insertEvent(event) {
-    // const isUnique = await this.checkUniqueness('event', 'eventId', event.eventId)
-
-    await this.prisma.event.create({
-      data: {
-        metricId: event.metricId,
-        eventId: event.eventId,
-        eventName: event.eventName,
-        profileId: event.profileId,
-        userEmail: event.userEmail,
-        fetchedEvent: JSON.stringify(event.fetchedEvent),
-        newEvent: JSON.stringify(event.newEvent)
-      }
-    })
-
-    // await this.prisma.event.upsert({
-    //   where: { 
-    //     eventId: event.eventId
-    //   },
-    //   update: {},
-    //   create: {
-    //     metricId: event.metricId,
-    //     eventId: event.eventId,
-    //     eventName: event.eventName,
-    //     profileId: event.profileId,
-    //     userEmail: event.userEmail,
-    //     fetchedEvent: JSON.stringify(event.fetchedEvent),
-    //     newEvent: JSON.stringify(event.newEvent)
-    //   }
-    // })
-
-    // return isUnique
-  }
-
   async checkUniqueness(table, column, value) {
     const record = await this.prisma[table].findUnique({
       where: {
@@ -113,6 +79,10 @@ class DatabaseController {
     })
 
     return record ? false : true
+  }
+
+  async countRows(table) {
+    return await this.prisma[table].count()
   }
 }
 

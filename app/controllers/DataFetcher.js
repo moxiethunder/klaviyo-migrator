@@ -40,9 +40,11 @@ class DataFetcher {
       if ( fetchResponse.statusCode === 204 ) return fetchResponse
 
       await this.processor.writeFetchedEvents()
+
+      return fetchResponse
     } catch (error) {
-      const errorType = error.constructor.name
-      console.log('Error from DataFetcher.initFetch()', errorType)
+      // const errorType = error.constructor.name
+      console.log('Error from DataFetcher.initFetch()', error)
     }
   }
 
@@ -58,29 +60,33 @@ class DataFetcher {
       metricId: this.metricId
     }
 
-    const eventName = await this.handler.metricNameRequest(config)
+    const eventName = await this.handler.makeAxiosRequest(config)
     this.eventName = eventName.data.attributes.name
     this.details.eventName = this.eventName
   }
 
   async fetchEventData(url=null) {
     const defaultConfig = {
-      url: '/events',
-      method: 'get',
-      params: {
-        'fields[event]': 'event_properties,timestamp',
-        'fields[metric]': 'name',
-        'fields[profile]': 'email',
-        'include': 'metric,profile',
-        'filter': `equals(metric_id,'${this.metricId}'),greater-or-equal(timestamp,${this.lookback})`,
-      }
+      request: {
+        url: '/events',
+        method: 'get',
+        params: {
+          'fields[event]': 'event_properties,datetime',
+          'fields[metric]': 'name',
+          'fields[profile]': 'email',
+          'include': 'metric,profile',
+          'filter': `equals(metric_id,'${this.metricId}'),greater-or-equal(timestamp,${this.lookback})`,
+        }
+      },
+      metricId: this.metricId,
+      origin: 'DataFetcher.fetchEventData()'
     }
 
     const config = this.isInitialRequest
     ? defaultConfig
-    : { url, method: 'get' }
+    : { request: { url, method: 'get' }, metricId: this.metricId, origin: 'DataFetcher.fetchEventData()'}
 
-    const requestResponse = await this.handler.getEventsRequest(config)
+    const requestResponse = await this.handler.makeAxiosRequest(config)
     if ( requestResponse.data.length === 0 ) return {
       statusCode: 204,
       reply: createFetchEventReply({
