@@ -52,6 +52,7 @@ class DataPublisher {
 
       await this.handler.makeAxiosRequest(config)
       await this.processor.updateStatus(eventId)
+      await this.processor.updateSuccessCount(this.metricId, 'success', 'metric')
 
       this.successfulWrites++
       const duration = getDuration(startTime)

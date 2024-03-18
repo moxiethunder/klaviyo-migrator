@@ -20,8 +20,8 @@ const RequestProcessingRoute = async (fastify, options) => {
 
     // Get Axios instances
     const { accountNames, lookback } = validation
-    const fetchAxios = services.get(accountNames.fetch)
-    const publishAxios = services.get(accountNames.publish)
+    let fetchAxios = services.get(accountNames.fetch)
+    let publishAxios = services.get(accountNames.publish)
     if ( !fetchAxios || !publishAxios ) return reply.code(500).send({ error: 'Axios instance does not exist' })
 
     // Register services
@@ -34,8 +34,10 @@ const RequestProcessingRoute = async (fastify, options) => {
 
     // Fetch from Klaviyo account and write to database
     try {
-      const fetcher = new DataFetcher(fetchAxios, services)
-      const fetchResponse = await fetcher.initFetch()
+      let fetcher = new DataFetcher(fetchAxios, services)
+      let fetchResponse = await fetcher.initFetch()
+      fetcher = null
+      fetchAxios = null
       if ( fetchResponse.statusCode === 204 ) {
         statusCode = 200
         replyInfo = createServerReply({ ...fetchResponse, duration: getDuration(startTime) })

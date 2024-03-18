@@ -9,6 +9,7 @@ datasource db {
 
 model Metric {
   metricId      String    @id @unique
+  success       Int       @default(0)
   eventName     String
   fetchClient   String    @default("maunaloa")
   publishClient String    @default("hawaiianhost")

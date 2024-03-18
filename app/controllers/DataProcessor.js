@@ -25,6 +25,10 @@ class DataProcessor {
     }
   }
 
+  async updateSuccessCount(id, column, table) {
+    await this.database.incrementCounter(id, column, table)
+  }
+
   async updateStatus(eventId) {
     await this.database.updateImportStatus(eventId)
   }

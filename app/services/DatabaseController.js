@@ -57,6 +57,19 @@ class DatabaseController {
     })
   }
 
+  async incrementCounter(id, column, table) {
+    await this.prisma[table].update({
+      where: {
+        metricId: id
+      },
+      data: {
+        [column]: {
+          increment: 1
+        }
+      }
+    })
+  }
+
   async getDataByMetricRelationship(metricId, relationship) {
     return await this.prisma.metric.findUnique({
       where: {
