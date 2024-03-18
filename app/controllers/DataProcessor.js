@@ -41,7 +41,9 @@ class DataProcessor {
         const profileId = event.relationships.profile.data.id
         const timestamp = event.attributes.datetime
         const eventProperties = event.attributes.event_properties
-        const userEmail = profiles.find(profile => profile.id === profileId).attributes.email
+        const userEmail = profiles.find(profile => profile.id === profileId)?.attributes?.email || 'unknown'
+
+        console.log(userEmail)
 
         const config = {
           properties: eventProperties,
@@ -95,7 +97,6 @@ class DataProcessor {
   createEventObject(config) {
     const { properties, time, name, email } = config
 
-    console.log('CREATE EVENT OBJECT', time)
     return {
       data: {
         type: 'event',
